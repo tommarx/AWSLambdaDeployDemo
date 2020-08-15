@@ -1,3 +1,4 @@
+import boto3
 import json
 
 # import requests
@@ -33,10 +34,24 @@ def lambda_handler(event, context):
 
     #     raise e
 
+    # return {
+    #     "statusCode": 200,
+    #     "body": json.dumps({
+    #         "message": "hello world",
+    #         # "location": ip.text.replace("\n", "")
+    #     }),
+    # }
+
+    s3 = boto3.resource('s3')
+
+    bucket_count = 0
+
+    for bucket in s3.buckets.all():
+    	bucket_count += 1
+
     return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": "hello world",
-            # "location": ip.text.replace("\n", "")
-        }),
+    	'statusCode': 200,
+    	'body': json.dumps({
+    		'bucket_count': bucket_count
+    	})
     }
