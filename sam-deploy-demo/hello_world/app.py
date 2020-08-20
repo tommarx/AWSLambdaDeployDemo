@@ -49,7 +49,7 @@ def lambda_handler(event, context):
     return {
     	'statusCode': 200,
     	'body': json.dumps({
-    		'bucket_names': bucket_names,
+    		'bucket_names': list(bucket_names),
     		'status_message': 'hello, world'
     	})
     }
