@@ -29,6 +29,11 @@ Resources:
           Properties:
             Path: /invoke
             Method: get
+        LambdaTest:
+          Type: S3
+          Properties:
+            Bucket: org.tommarx.s3-lambda-bucket
+            Events: s3:ObjectCreated:*
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
