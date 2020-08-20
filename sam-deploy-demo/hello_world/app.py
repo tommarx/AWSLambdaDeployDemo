@@ -44,7 +44,7 @@ def lambda_handler(event, context):
 
     s3 = boto3.resource('s3')
 
-    buckets_names = map(lambda bucket: bucket.name, s3.buckets.all())
+    bucket_names = map(lambda bucket: bucket.name, s3.buckets.all())
 
     return {
     	'statusCode': 200,
