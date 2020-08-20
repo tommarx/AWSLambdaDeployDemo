@@ -44,15 +44,12 @@ def lambda_handler(event, context):
 
     s3 = boto3.resource('s3')
 
-    bucket_count = 0
-
-    for bucket in s3.buckets.all():
-    	bucket_count += 1
+    buckets_names = map(lambda bucket: bucket.name, s3.buckets.all())
 
     return {
     	'statusCode': 200,
     	'body': json.dumps({
-    		'bucket_count': bucket_count,
+    		'bucket_names': bucket_names,
     		'status_message': 'hello, world'
     	})
     }
