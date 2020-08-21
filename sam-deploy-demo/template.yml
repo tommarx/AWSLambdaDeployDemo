@@ -72,7 +72,7 @@ Resources:
       EventSelectors:
         - DataResources:
           - Type: AWS::S3::Object
-            Value:
+            Values:
               - !Sub |-
                 arn:aws:s3:::${ExistingBucketName}/
       IncludeGlobalServiceEvents: false
