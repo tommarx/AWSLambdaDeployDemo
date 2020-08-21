@@ -77,27 +77,27 @@ Resources:
                 arn:aws:s3:::${ExistingBucketName}/
       IncludeGlobalServiceEvents: false
 
-  # EventRule:
-  #   Type: AWS::Events::Rule
-  #   Properties:
-  #     Descroption: "Event rule"
-  #     State: "ENABLED"
-  #     EventPattern:
-  #       source:
-  #         - "aws.s3"
-  #       detail:
-  #         eventName:
-  #           - "PutObject"
-  #         requestParameters:
-  #           bucketName:
-  #             - !Ref ExistingBucketName
-  #     Targets:
-  #       -
-  #         Arn:
-  #           Fn::GetAtt:
-  #             - "LambdaTestFunction"
-  #             - "Arn"
-  #         Id: "LambdaTestFunctionTarget"
+  EventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Descroption: "Event rule"
+      State: "ENABLED"
+      EventPattern:
+        source:
+          - "aws.s3"
+        detail:
+          eventName:
+            - "PutObject"
+          requestParameters:
+            bucketName:
+              - !Ref ExistingBucketName
+      Targets:
+        -
+          Arn:
+            Fn::GetAtt:
+              - "LambdaTestFunction"
+              - "Arn"
+          Id: "LambdaTestFunctionTarget"
 
   # PermissionForEventsToInvokeLambda:
   #   Type: AWS::Lambda::Permission
