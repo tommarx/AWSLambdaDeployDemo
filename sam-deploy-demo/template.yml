@@ -10,13 +10,19 @@ Globals:
   Function:
     Timeout: 3
 
+Parameters:
+
+  ExistingBucketName:
+    Type: String
+    Default: 'org.tommarx.s3-lambda-bucket'
+
 Resources:
 
   ImportedBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     Properties:
-      BucketName: "org.tommarx.s3-lambda-bucket"
+      BucketName: !Ref ExistingBucketName
 
   LambdaTestFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
