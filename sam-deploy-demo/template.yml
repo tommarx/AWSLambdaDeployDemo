@@ -64,7 +64,7 @@ Resources:
     DependsOn:
       - WriteToLoggingBucketPolicy
     Properties:
-      Trailname: !Ref ExistingBucketName
+      TrailName: !Ref ExistingBucketName
       S3BucketName: !Ref LoggingBucketName
         # Ref: LoggingBucket
       IsLogging: true
