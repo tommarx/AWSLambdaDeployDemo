@@ -14,15 +14,100 @@ Parameters:
 
   ExistingBucketName:
     Type: String
-    Default: 'org.tommarx.s3-lambda-bucket'
+    Default: "org.tommarx.s3-lambda-bucket"
+
+  LoggingBucketName:
+    Type: String
+    Default: "org.tommarx.s3tolambda.logging"
 
 Resources:
 
-  ImportedBucket:
+  LoggingBucket:
     Type: AWS::S3::Bucket
-    DeletionPolicy: Retain
     Properties:
-      BucketName: !Ref ExistingBucketName
+      BucketName: !Ref LoggingBucketName
+
+  WriteToLoggingBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: LoggingBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Sid: "AWSCloudTrailAclCheck"
+            Effect: "Allow"
+            Principal:
+              Service: "cloudtrail.amazonaws.com"
+            Action: "s3:GetBucketAcl"
+            Resource:
+              !Sub |-
+                arn:aws:s3:::${LoggingBucket}
+          -
+            Sid: "AWSCloudTrailWrite"
+            Effect: "Allow"
+            Principal:
+              Service: "cloudtrail.amazonaws.com"
+            Action: "s3:PutObject"
+            Resource:
+              !Sub |-
+                arn:aws:s3:::${LoggingBucket}/AWSLogs/${AWS::AccountId}/*
+            Condition:
+              StringEquals:
+                s3:x-amz-acl: "bucket-owner-full-control"
+
+  LoggingTrail:
+    Type: AWS::CloudTrail::Trail
+    DependsOn:
+      - BucketPolicy
+    Properties:
+      Trailname: !Ref ExistingBucketName
+      S3BucketName:
+        Ref: LoggingBucket
+      IsLogging: true
+      IsMultiRegionTrail: false
+      EventSelectors:
+        - DataResource:
+          - Type: AWS::S3::Object
+            Value:
+              - !Sub |-
+                arn:aws:s3:::${ExistingBucketName}/
+      IncludeGlobalServiceEvents: false
+
+  EventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Descroption: "Event rule"
+      State: "ENABLED"
+      EventPattern:
+        source:
+          - "aws.s3"
+        detail:
+          eventName:
+            - "PutObject"
+          requestParameters:
+            bucketName:
+              - !Ref ExistingBucketName
+      Targets:
+        -
+          Arn:
+            Fn::GetAtt:
+              - "LambdaTestFunction"
+              - "Arn"
+          Id: "LambdaTestFunctionTarget"
+
+  PermissionForEventsToInvokeLambda:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: "LambdaTestFunction"
+      Action: "lambda:InvokeFunction"
+      Principal: "events.amazonaws.com"
+      SourceArn:
+        Fn::GetAtt:
+          - "EventRule"
+          - "Arn"
 
   LambdaTestFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
