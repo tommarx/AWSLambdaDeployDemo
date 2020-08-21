@@ -60,7 +60,7 @@ Resources:
   LoggingTrail:
     Type: AWS::CloudTrail::Trail
     DependsOn:
-      - BucketPolicy
+      - WriteToLoggingBucketPolicy
     Properties:
       Trailname: !Ref ExistingBucketName
       S3BucketName:
