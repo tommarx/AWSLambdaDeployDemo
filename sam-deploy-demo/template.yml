@@ -45,7 +45,7 @@ Resources:
             Action: "s3:GetBucketAcl"
             Resource:
               !Sub |-
-                arn:aws:s3:::${LoggingBucket}
+                arn:aws:s3:::${LoggingBucketName}
           -
             Sid: "AWSCloudTrailWrite"
             Effect: "Allow"
@@ -54,7 +54,7 @@ Resources:
             Action: "s3:PutObject"
             Resource:
               !Sub |-
-                arn:aws:s3:::${LoggingBucket}/AWSLogs/${AWS::AccountId}/*
+                arn:aws:s3:::${LoggingBucketName}/AWSLogs/${AWS::AccountId}/*
             Condition:
               StringEquals:
                 s3:x-amz-acl: "bucket-owner-full-control"
