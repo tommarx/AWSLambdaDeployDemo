@@ -65,8 +65,8 @@ Resources:
       - WriteToLoggingBucketPolicy
     Properties:
       Trailname: !Ref ExistingBucketName
-      S3BucketName:
-        Ref: LoggingBucket
+      S3BucketName: !Ref LoggingBucketName
+        # Ref: LoggingBucket
       IsLogging: true
       IsMultiRegionTrail: false
       EventSelectors:
