@@ -22,41 +22,42 @@ Parameters:
 
 Resources:
 
-  LoggingBucket:
-    Type: AWS::S3::Bucket
-    DeletionPolicy: Retain
-    Properties:
-      BucketName: !Ref LoggingBucketName
-
-  # WriteToLoggingBucketPolicy:
-  #   Type: AWS::S3::BucketPolicy
+  # LoggingBucket:
+  #   Type: AWS::S3::Bucket
+  #   DeletionPolicy: Retain
   #   Properties:
-  #     Bucket:
-  #       Ref: LoggingBucket
-  #     PolicyDocument:
-  #       Version: "2012-10-17"
-  #       Statement:
-  #         -
-  #           Sid: "AWSCloudTrailAclCheck"
-  #           Effect: "Allow"
-  #           Principal:
-  #             Service: "cloudtrail.amazonaws.com"
-  #           Action: "s3:GetBucketAcl"
-  #           Resource:
-  #             !Sub |-
-  #               arn:aws:s3:::${LoggingBucket}
-  #         -
-  #           Sid: "AWSCloudTrailWrite"
-  #           Effect: "Allow"
-  #           Principal:
-  #             Service: "cloudtrail.amazonaws.com"
-  #           Action: "s3:PutObject"
-  #           Resource:
-  #             !Sub |-
-  #               arn:aws:s3:::${LoggingBucket}/AWSLogs/${AWS::AccountId}/*
-  #           Condition:
-  #             StringEquals:
-  #               s3:x-amz-acl: "bucket-owner-full-control"
+  #     BucketName: !Ref LoggingBucketName
+
+  WriteToLoggingBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref LoggingBucketName
+      # Bucket:
+      #   Ref: LoggingBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Sid: "AWSCloudTrailAclCheck"
+            Effect: "Allow"
+            Principal:
+              Service: "cloudtrail.amazonaws.com"
+            Action: "s3:GetBucketAcl"
+            Resource:
+              !Sub |-
+                arn:aws:s3:::${LoggingBucket}
+          -
+            Sid: "AWSCloudTrailWrite"
+            Effect: "Allow"
+            Principal:
+              Service: "cloudtrail.amazonaws.com"
+            Action: "s3:PutObject"
+            Resource:
+              !Sub |-
+                arn:aws:s3:::${LoggingBucket}/AWSLogs/${AWS::AccountId}/*
+            Condition:
+              StringEquals:
+                s3:x-amz-acl: "bucket-owner-full-control"
 
   # LoggingTrail:
   #   Type: AWS::CloudTrail::Trail
