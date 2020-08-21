@@ -11,6 +11,13 @@ Globals:
     Timeout: 3
 
 Resources:
+
+  ImportedBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: "org.tommarx.s3-lambda-bucket"
+
   LambdaTestFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -29,6 +36,12 @@ Resources:
           Properties:
             Path: /invoke
             Method: get
+
+        LambdaTest:
+          Type: S3
+          Properties:
+            Bucket: "org.tommarx.s3-lambda-bucket"
+            Events: s3:ObjectCreated:*
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
