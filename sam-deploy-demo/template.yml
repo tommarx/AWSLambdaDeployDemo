@@ -22,11 +22,11 @@ Parameters:
 
 Resources:
 
-  # LoggingBucket:
-  #   Type: AWS::S3::Bucket
-  #   DeletionPolicy: Retain
-  #   Properties:
-  #     BucketName: !Ref LoggingBucketName
+  LoggingBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref LoggingBucketName
 
   # WriteToLoggingBucketPolicy:
   #   Type: AWS::S3::BucketPolicy
