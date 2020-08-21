@@ -75,39 +75,39 @@ Resources:
                 arn:aws:s3:::${ExistingBucketName}/
       IncludeGlobalServiceEvents: false
 
-  EventRule:
-    Type: AWS::Events::Rule
-    Properties:
-      Descroption: "Event rule"
-      State: "ENABLED"
-      EventPattern:
-        source:
-          - "aws.s3"
-        detail:
-          eventName:
-            - "PutObject"
-          requestParameters:
-            bucketName:
-              - !Ref ExistingBucketName
-      Targets:
-        -
-          Arn:
-            Fn::GetAtt:
-              - "LambdaTestFunction"
-              - "Arn"
-          Id: "LambdaTestFunctionTarget"
+  # EventRule:
+  #   Type: AWS::Events::Rule
+  #   Properties:
+  #     Descroption: "Event rule"
+  #     State: "ENABLED"
+  #     EventPattern:
+  #       source:
+  #         - "aws.s3"
+  #       detail:
+  #         eventName:
+  #           - "PutObject"
+  #         requestParameters:
+  #           bucketName:
+  #             - !Ref ExistingBucketName
+  #     Targets:
+  #       -
+  #         Arn:
+  #           Fn::GetAtt:
+  #             - "LambdaTestFunction"
+  #             - "Arn"
+  #         Id: "LambdaTestFunctionTarget"
 
-  PermissionForEventsToInvokeLambda:
-    Type: AWS::Lambda::Permission
-    Properties:
-      FunctionName:
-        Ref: "LambdaTestFunction"
-      Action: "lambda:InvokeFunction"
-      Principal: "events.amazonaws.com"
-      SourceArn:
-        Fn::GetAtt:
-          - "EventRule"
-          - "Arn"
+  # PermissionForEventsToInvokeLambda:
+  #   Type: AWS::Lambda::Permission
+  #   Properties:
+  #     FunctionName:
+  #       Ref: "LambdaTestFunction"
+  #     Action: "lambda:InvokeFunction"
+  #     Principal: "events.amazonaws.com"
+  #     SourceArn:
+  #       Fn::GetAtt:
+  #         - "EventRule"
+  #         - "Arn"
 
   LambdaTestFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -127,12 +127,6 @@ Resources:
           Properties:
             Path: /invoke
             Method: get
-
-        # LambdaTest:
-        #   Type: S3
-        #   Properties:
-        #     Bucket: "org.tommarx.s3-lambda-bucket"
-        #     Events: s3:ObjectCreated:*
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
