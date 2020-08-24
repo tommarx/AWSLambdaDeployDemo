@@ -117,6 +117,8 @@ Resources:
       CodeUri: tests/deployment
       Handler: pre_traffic_hook_tests.lambda_handler
       Runtime: python3.8
+      DeploymentPreference:
+        Enabled: false
       Policies:
         - Version: "2012-10-17"
 # Grants this function permission to call codedeploy:PutLifecycleEventHookExecutionStatus        
