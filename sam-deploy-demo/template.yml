@@ -131,9 +131,9 @@ Resources:
       CodeUri: test_function/
       Handler: app.lambda_handler
       Runtime: python3.8
-      # AutoPublishAlias: live
-      # DeploymentPreference:
-      #   Type: AllAtOnce
+      AutoPublishAlias: live
+      DeploymentPreference:
+        Type: AllAtOnce
       #   Hooks:
       #     PreTraffic: !Ref PreTrafficHookFunction
       Policies:
