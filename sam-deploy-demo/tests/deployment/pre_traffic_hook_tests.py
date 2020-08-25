@@ -8,6 +8,9 @@ def lambda_handler(event, context):
 	deployment_id = event['DeploymentId']
 	execution_id = event['LifecycleEventHookExecutionId']
 
+	print('Event:')
+	print(event)
+
 	print('Deployment id:')
 	print(deployment_id)
 	print(len(deployment_id))
