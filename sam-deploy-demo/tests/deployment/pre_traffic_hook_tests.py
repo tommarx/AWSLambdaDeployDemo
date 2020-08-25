@@ -10,7 +10,7 @@ def lambda_handler(event, context):
 
 	print('Deployment id:')
 	print(deployment_id)
-	print(len(deploy_id))
+	print(len(deployment_id))
 	print('Execution id:')
 	print(execution_id)
 	print(len(execution_id))
