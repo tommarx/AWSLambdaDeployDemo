@@ -18,7 +18,7 @@ def lambda_handler(event, context):
 	response = deploy_client.put_lifecycle_event_hook_execution_status(
     	deploymentId = deployment_id,
     	lifecycleEventHookExecutionId = execution_id,
-    	status = 'Succeeded'
+    	status = 'Failed'
 	)
 
 	return 'Pretraffic hook completed'
