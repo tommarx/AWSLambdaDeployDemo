@@ -10,9 +10,23 @@ def lambda_handler(event, context):
 	execution_id = event['LifecycleEventHookExecutionId']
 
 	deploy_client = boto3.client('codedeploy')
+	lambda_client = boto3.client('lambda')
 
-	print("Environment variables")
-	print(os.environ)
+	test_function = os.environ['TestFunction']
+
+	function_parameters = b"""{
+		"param1": 1,
+		"param2": 2
+	}"""
+
+	lambda_response = lambda_client.invoke(
+		FunctionName = test_function,
+		InvocationType = 'RequestResponse',
+		Payload = function_parameters
+	)
+
+	print("Function response:")
+	print(lambda_response)
 
 	response = deploy_client.put_lifecycle_event_hook_execution_status(
     	deploymentId = deployment_id,
