@@ -10,8 +10,10 @@ def lambda_handler(event, context):
 
 	print('Deployment id:')
 	print(deployment_id)
+	print(len(deploy_id))
 	print('Execution id:')
 	print(execution_id)
+	print(len(execution_id))
 
 	deploy_client = boto3.client('codedeploy')
 
