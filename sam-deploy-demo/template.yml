@@ -114,7 +114,7 @@ Resources:
   PreTrafficHookFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: tests/deployment
+      CodeUri: tests/deployment/
       Handler: pre_traffic_hook_tests.lambda_handler
       Runtime: python3.8
       DeploymentPreference:
