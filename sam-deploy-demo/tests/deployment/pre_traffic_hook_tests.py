@@ -1,5 +1,6 @@
 import boto3
 import json
+import os
 
 def lambda_handler(event, context):
 
@@ -10,10 +11,8 @@ def lambda_handler(event, context):
 
 	deploy_client = boto3.client('codedeploy')
 
-	print("Context:")
-	print(context)
-	print("Event:")
-	print(event)
+	print("Environment variables")
+	print(os.environ)
 
 	response = deploy_client.put_lifecycle_event_hook_execution_status(
     	deploymentId = deployment_id,
