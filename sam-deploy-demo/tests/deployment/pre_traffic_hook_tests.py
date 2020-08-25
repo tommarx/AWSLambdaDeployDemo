@@ -30,7 +30,7 @@ def lambda_handler(event, context):
 	print(lambda_response['StatusCode'])
 	print('Function response payload:')
 	# print(json.dump(lambda_response['Payload']))
-	print(lambda_response['Payload'])
+	print(lambda_response['Payload'].read())
 
 	response = deploy_client.put_lifecycle_event_hook_execution_status(
     	deploymentId = deployment_id,
