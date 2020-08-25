@@ -3,6 +3,8 @@ import json
 
 def lambda_handler(event, context):
 
+	print('Invoking pretraffic tests.')
+
 	deployment_id = event['DeploymentId']
 	execution_id = event['LifecycleEventHookExecutionId']
 
