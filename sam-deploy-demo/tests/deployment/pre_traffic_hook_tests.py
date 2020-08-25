@@ -25,13 +25,12 @@ def lambda_handler(event, context):
 		Payload = function_parameters
 	)
 
-	print("Function response:")
+	print('Function response:')
 	print(lambda_response)
 	print(lambda_response['StatusCode'])
-	print('Function response payload:')
-	# print(json.dump(lambda_response['Payload']))
 
-	function_response = lambda_response['Payload'].read().decode("utf-8")
+	print('Function response payload:')
+	function_response = json.load(lambda_response['Payload'])
 	print(function_response['statusCode'])
 	print(function_response['body']['result'])
 
