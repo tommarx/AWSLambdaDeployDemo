@@ -129,6 +129,15 @@ Resources:
               - "codedeploy:PutLifecycleEventHookExecutionStatus"
             Resource:
               !Sub 'arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentgroup:${ServerlessDeploymentApplication}/*'
+        - Version: "2012-10-17"
+          Statement: 
+          - Effect: "Allow"
+            Action: 
+              - "lambda:InvokeFunction"
+            Resource: !Ref AddFunction.Version
+      Environment:
+        Variables:
+          TestFunction: !Ref AddFunction.Version
 
   AddFunction:
     Type: AWS::Serverless::Function
@@ -136,6 +145,11 @@ Resources:
       CodeUri: test_function/
       Handler: add.lambda_handler
       Runtime: python3.8
+      AutoPublishAlias: test
+      DeploymentPreference:
+        Type: AllAtOnce
+        Hooks:
+          PreTraffic: !Ref PreTrafficHookFunction
 
   LambdaTestFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -143,12 +157,11 @@ Resources:
       CodeUri: test_function/
       Handler: app.lambda_handler
       Runtime: python3.8
-      AutoPublishAlias: test
-      # AutoPublishCodeSha256: test1
-      DeploymentPreference:
-        Type: AllAtOnce
-        Hooks:
-          PreTraffic: !Ref PreTrafficHookFunction
+      # AutoPublishAlias: test
+      # DeploymentPreference:
+      #   Type: AllAtOnce
+      #   Hooks:
+      #     PreTraffic: !Ref PreTrafficHookFunction
       Policies:
         - Version: "2012-10-17"
           Statement:

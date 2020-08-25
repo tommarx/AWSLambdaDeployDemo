@@ -13,6 +13,8 @@ def lambda_handler(event, context):
 
 	deploy_client = boto3.client('codedeploy')
 
+	print(process)
+
 	response = deploy_client.put_lifecycle_event_hook_execution_status(
     	deploymentId = deployment_id,
     	lifecycleEventHookExecutionId = execution_id,
