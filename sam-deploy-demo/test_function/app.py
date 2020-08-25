@@ -50,6 +50,6 @@ def lambda_handler(event, context):
     	'statusCode': 200,
     	'body': json.dumps({
     		'bucket_names': list(bucket_names),
-    		'status_message': 'success1'
+    		'status_message': 'success2'
     	})
     }
