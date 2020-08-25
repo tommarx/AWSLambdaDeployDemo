@@ -143,6 +143,7 @@ Resources:
       Handler: app.lambda_handler
       Runtime: python3.8
       AutoPublishAlias: live
+      AutoPublishCodeSha256: test1
       DeploymentPreference:
         Type: AllAtOnce
         Hooks:
