@@ -21,9 +21,9 @@ def lambda_handler(event, context):
 	deploy_client = boto3.client('codedeploy')
 
 	response = deploy_client.put_lifecycle_event_hook_execution_status(
-    	deploymentId = event['DeploymentId'],
-    	lifecycleEventHookExecutionId = ['LifecycleEventHookExecutionId'],
-    	status = 'Failed'
+    	deploymentId = deployment_id,
+    	lifecycleEventHookExecutionId = execution_id,
+    	status = 'Succeeded'
 	)
 
 	return 'Pretraffic hook completed'
