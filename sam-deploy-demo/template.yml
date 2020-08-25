@@ -146,7 +146,7 @@ Resources:
       AutoPublishAlias: test
       # AutoPublishCodeSha256: test1
       DeploymentPreference:
-        Type: Canary10Percent10Minutes
+        Type: LambdaAllAtOnce
         Hooks:
           PreTraffic: !Ref PreTrafficHookFunction
       Policies:
