@@ -144,9 +144,9 @@ Resources:
       Handler: app.lambda_handler
       Runtime: python3.8
       AutoPublishAlias: test
-      AutoPublishCodeSha256: test1
+      # AutoPublishCodeSha256: test1
       DeploymentPreference:
-        Type: AllAtOnce
+        Type: Canary10Percent10Minutes
         Hooks:
           PreTraffic: !Ref PreTrafficHookFunction
       Policies:
