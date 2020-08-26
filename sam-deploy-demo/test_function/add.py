@@ -9,6 +9,6 @@ def lambda_handler(event, context):
 	return {
 		'statusCode': 200,
 		'body': json.dumps({
-			'result': param_1 + param_2 + 1 # Should result in the pretraffic test failing
+			'result': param_1 + param_2
 		}) 
 	}

@@ -102,7 +102,7 @@ Resources:
           - "EventRule"
           - "Arn"
 
-  PreTrafficHookFunction:
+  SimpleAddPreTrafficHookFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: tests/deployment/
@@ -110,7 +110,7 @@ Resources:
       Runtime: python3.8
       DeploymentPreference:
         Enabled: false
-      FunctionName: 'CodeDeployHook_PreTrafficHookFunction'
+      FunctionName: 'CodeDeployHook_SimpleAddPreTrafficHookFunction'
       Policies:
         - Version: "2012-10-17"        
           Statement: 
@@ -124,12 +124,12 @@ Resources:
           - Effect: "Allow"
             Action: 
               - "lambda:InvokeFunction"
-            Resource: !Ref AddFunction.Version
+            Resource: !Ref SimpleAddFunction.Version
       Environment:
         Variables:
-          TestFunction: !Ref AddFunction.Version
+          TestFunction: !Ref SimpleAddFunction.Version
 
-  AddFunction:
+  SimpleAddFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: test_function/
@@ -139,7 +139,7 @@ Resources:
       DeploymentPreference:
         Type: AllAtOnce
         Hooks:
-          PreTraffic: !Ref PreTrafficHookFunction
+          PreTraffic: !Ref SimpleAddPreTrafficHookFunction
 
   LambdaTestFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
