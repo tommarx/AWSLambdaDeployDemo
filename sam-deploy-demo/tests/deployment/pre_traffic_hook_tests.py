@@ -14,10 +14,13 @@ def lambda_handler(event, context):
 
 	test_function = os.environ['TestFunction']
 
+	param_1 = 1
+	param_2 = 2
+
 	function_parameters = b"""{
-		"param1": 1,
-		"param2": 2
-	}"""
+		"param1": %i,
+		"param2": %i
+	}""" % (param_1, param_2)
 
 	lambda_response = lambda_client.invoke(
 		FunctionName = test_function,
@@ -25,17 +28,14 @@ def lambda_handler(event, context):
 		Payload = function_parameters
 	)
 
-	print('Function response:')
-	print(lambda_response)
-	print(lambda_response['StatusCode'])
-
 	function_response = json.load(lambda_response['Payload'])
 	function_response_body = json.loads(function_response['body'])
 
 	function_status_code = lambda_response['StatusCode']
 	functoion_result = function_response_body['result']
+	expected_result = param_1 + param_2
 
-	deployment_status = 'Succeeded' if function_status_code == 200 && functoion_result == 3 else 'Failed'
+	deployment_status = 'Succeeded' if function_status_code == 200 and functoion_result == expected_result else 'Failed'
 
 	response = deploy_client.put_lifecycle_event_hook_execution_status(
     	deploymentId = deployment_id,
