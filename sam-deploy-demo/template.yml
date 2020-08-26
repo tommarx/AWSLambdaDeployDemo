@@ -22,18 +22,10 @@ Parameters:
 
 Resources:
 
-  # LoggingBucket:
-  #   Type: AWS::S3::Bucket
-  #   DeletionPolicy: Retain
-  #   Properties:
-  #     BucketName: !Ref LoggingBucketName
-
   WriteToLoggingBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
       Bucket: !Ref LoggingBucketName
-      # Bucket:
-      #   Ref: LoggingBucket
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -66,7 +58,6 @@ Resources:
     Properties:
       TrailName: !Ref ExistingBucketName
       S3BucketName: !Ref LoggingBucketName
-        # Ref: LoggingBucket
       IsLogging: true
       IsMultiRegionTrail: false
       EventSelectors:
@@ -121,8 +112,7 @@ Resources:
         Enabled: false
       FunctionName: 'CodeDeployHook_PreTrafficHookFunction'
       Policies:
-        - Version: "2012-10-17"
-# Grants this function permission to call codedeploy:PutLifecycleEventHookExecutionStatus        
+        - Version: "2012-10-17"        
           Statement: 
           - Effect: "Allow"
             Action: 
@@ -157,11 +147,6 @@ Resources:
       CodeUri: test_function/
       Handler: app.lambda_handler
       Runtime: python3.8
-      # AutoPublishAlias: test
-      # DeploymentPreference:
-      #   Type: AllAtOnce
-      #   Hooks:
-      #     PreTraffic: !Ref PreTrafficHookFunction
       Policies:
         - Version: "2012-10-17"
           Statement:
