@@ -29,17 +29,18 @@ def lambda_handler(event, context):
 	print(lambda_response)
 	print(lambda_response['StatusCode'])
 
-	print('Function response payload:')
 	function_response = json.load(lambda_response['Payload'])
-	print(function_response['statusCode'])
-
 	function_response_body = json.loads(function_response['body'])
-	print(function_response_body['result'])
+
+	function_status_code = lambda_response['StatusCode']
+	functoion_result = function_response_body['result']
+
+	deployment_status = 'Succeeded' if function_status_code == 200 && functoion_result == 3 else 'Failed'
 
 	response = deploy_client.put_lifecycle_event_hook_execution_status(
     	deploymentId = deployment_id,
     	lifecycleEventHookExecutionId = execution_id,
-    	status = 'Succeeded'
+    	status = deployment_status
 	)
 
 	return 'Pretraffic hook completed'
